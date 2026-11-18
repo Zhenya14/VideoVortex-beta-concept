@@ -1,0 +1,346 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  background-color: var(--bg-canvas);
+  color: var(--text-primary);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 15px;
+  line-height: 1.5;
+  overflow-x: clip;
+  -webkit-font-smoothing: antialiased;
+}
+
+.ambient-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+  background-color: var(--bg-canvas);
+}
+
+.ambient-orb {
+  display: none;
+}
+
+@keyframes vvViewEnter {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes vvForwardIn {
+  from {
+    opacity: 0;
+    transform: translate3d(44px, 0, 0) scale(0.985);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+@keyframes vvForwardOut {
+  from {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: translate3d(-44px, 0, 0) scale(0.985);
+  }
+}
+
+@keyframes vvBackwardIn {
+  from {
+    opacity: 0;
+    transform: translate3d(-44px, 0, 0) scale(0.985);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+@keyframes vvBackwardOut {
+  from {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: translate3d(44px, 0, 0) scale(0.985);
+  }
+}
+
+@keyframes vvPushDetailIn {
+  from {
+    opacity: 0;
+    transform: translate3d(52px, 0, 0) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+@keyframes vvPushDetailOut {
+  from {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: translate3d(-24px, 0, 0) scale(0.96);
+  }
+}
+
+@keyframes vvPredictiveBackIn {
+  from {
+    opacity: 0;
+    transform: translate3d(-28px, 0, 0) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+@keyframes vvPredictiveBackOut {
+  from {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+    border-radius: 0px;
+  }
+  to {
+    opacity: 0;
+    transform: translate3d(54px, 0, 0) scale(0.9);
+    border-radius: 24px;
+  }
+}
+
+@keyframes vvModalPop {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes vvDropIn {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--glass-border);
+  border-radius: var(--radius-full);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--glass-border-strong);
+}
+
+a {
+  color: #60a5fa;
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+a:hover {
+  color: #93c5fd;
+}
+
+img, video {
+  max-width: 100%;
+  display: block;
+}
+
+.material-symbols {
+  font-family: 'Material Symbols Outlined';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 20px;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  vertical-align: middle;
+  user-select: none;
+  flex-shrink: 0;
+}
+
+.app-shell {
+  position: relative;
+  width: 100%;
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 20px 20px 108px;
+  overflow-x: clip;
+}
+
+.app-shell > section {
+  transform-origin: center center;
+}
+
+.app-shell > section.vv-view-initial {
+  animation: vvViewEnter 0.24s cubic-bezier(0.2, 0, 0, 1) both;
+}
+
+.app-shell > section.vv-view-entering {
+  position: relative;
+  z-index: 2;
+  will-change: transform, opacity;
+}
+
+.app-shell > section.vv-view-leaving {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  right: 20px;
+  pointer-events: none;
+  z-index: 1;
+  will-change: transform, opacity;
+}
+
+.app-shell > section.vv-view-entering.vv-dir-forward {
+  animation: vvForwardIn 0.32s cubic-bezier(0.2, 0, 0, 1) both;
+}
+
+.app-shell > section.vv-view-leaving.vv-dir-forward {
+  animation: vvForwardOut 0.28s cubic-bezier(0.2, 0, 0, 1) both;
+}
+
+.app-shell > section.vv-view-entering.vv-dir-backward {
+  animation: vvBackwardIn 0.32s cubic-bezier(0.2, 0, 0, 1) both;
+}
+
+.app-shell > section.vv-view-leaving.vv-dir-backward {
+  animation: vvBackwardOut 0.28s cubic-bezier(0.2, 0, 0, 1) both;
+}
+
+.app-shell > section.vv-view-entering.vv-dir-push-detail {
+  animation: vvPushDetailIn 0.34s cubic-bezier(0.2, 0, 0, 1) both;
+}
+
+.app-shell > section.vv-view-leaving.vv-dir-push-detail {
+  animation: vvPushDetailOut 0.28s cubic-bezier(0.2, 0, 0, 1) both;
+}
+
+.app-shell > section.vv-view-entering.vv-dir-predictive-back {
+  animation: vvPredictiveBackIn 0.32s cubic-bezier(0.2, 0, 0, 1) both;
+}
+
+.app-shell > section.vv-view-leaving.vv-dir-predictive-back {
+  animation: vvPredictiveBackOut 0.3s cubic-bezier(0.2, 0, 0, 1) both;
+  overflow: hidden;
+  z-index: 3;
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.section-title {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.panel-card,
+.liquid-glass {
+  background-color: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-highlight), var(--shadow-sm);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.hidden {
+  display: none !important;
+}
+
+@media (max-width: 768px) {
+  .app-shell {
+    padding: 14px 12px 100px;
+  }
+
+  .app-shell > section.vv-view-leaving {
+    top: 14px;
+    left: 12px;
+    right: 12px;
+  }
+}
+
+@media (min-width: 960px) {
+  .app-shell {
+    padding-bottom: 40px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+  }
+
+  .ambient-orb {
+    animation: none !important;
+  }
+}
+
+body.reduced-motion *,
+body.reduced-motion *::before,
+body.reduced-motion *::after {
+  transition-duration: 0.01ms !important;
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+}
+
+body.reduced-motion .ambient-orb {
+  animation: none !important;
+}

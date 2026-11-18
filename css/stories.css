@@ -1,0 +1,213 @@
+.stories-section {
+  margin-bottom: 24px;
+}
+
+.stories-container {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  overflow-x: auto;
+  padding: 6px 2px 12px;
+  scrollbar-width: thin;
+}
+
+.story-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  min-width: 72px;
+  max-width: 76px;
+  user-select: none;
+}
+
+.story-avatar,
+.story-add-btn {
+  width: 62px;
+  height: 62px;
+  border-radius: 50%;
+  background-color: var(--bg-surface);
+  border: 2px solid var(--accent-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  color: var(--text-primary);
+  font-weight: 700;
+  font-size: 18px;
+  transition: transform 0.15s ease, border-color 0.15s ease;
+  background-size: cover;
+  background-position: center;
+}
+
+.story-item:hover .story-avatar,
+.story-item:hover .story-add-btn {
+  transform: translateY(-2px);
+  border-color: #60a5fa;
+}
+
+.story-add-btn {
+  border-style: dashed;
+  border-color: var(--border-strong);
+  background-color: var(--bg-elevated);
+}
+
+.story-avatar-wrap {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.story-count-badge {
+  position: absolute;
+  right: -2px;
+  bottom: -2px;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 5px;
+  border-radius: var(--radius-full);
+  background-color: var(--accent-primary);
+  border: 2px solid var(--bg-canvas);
+  color: #ffffff;
+  font-size: 11px;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.story-name {
+  font-size: 12px;
+  color: var(--text-secondary);
+  max-width: 72px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: center;
+}
+
+.story-viewer {
+  position: fixed;
+  inset: 0;
+  z-index: 3000;
+  background-color: var(--bg-overlay);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+
+.story-viewer.active {
+  display: flex;
+}
+
+.story-modal-card {
+  position: relative;
+  width: 100%;
+  max-width: 420px;
+  height: min(82vh, 720px);
+  background-color: #090d14;
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow: var(--shadow-lg);
+}
+
+.story-progress {
+  display: flex;
+  gap: 4px;
+  padding: 10px 12px 0;
+  z-index: 5;
+}
+
+.story-progress-bar {
+  flex: 1;
+  height: 3px;
+  background-color: rgba(255, 255, 255, 0.22);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+}
+
+.story-progress-fill {
+  height: 100%;
+  width: 0%;
+  background-color: #ffffff;
+  transition: width 0.1s linear;
+}
+
+.story-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  z-index: 5;
+}
+
+.story-user-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.story-user-avatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background-color: var(--bg-elevated);
+  border: 1px solid var(--border-default);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 600;
+  color: #ffffff;
+  background-size: cover;
+  background-position: center;
+}
+
+.story-media-stage {
+  position: relative;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background-color: #05080d;
+}
+
+.story-media-stage img,
+.story-media-stage video {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.story-caption-bar {
+  padding: 12px 16px;
+  background-color: var(--bg-surface);
+  border-top: 1px solid var(--border-subtle);
+  font-size: 13.5px;
+  color: var(--text-primary);
+  z-index: 5;
+}
+
+.story-nav-zone {
+  position: absolute;
+  top: 64px;
+  bottom: 56px;
+  width: 35%;
+  z-index: 4;
+  cursor: pointer;
+}
+
+.story-nav-zone.prev {
+  left: 0;
+}
+
+.story-nav-zone.next {
+  right: 0;
+}
