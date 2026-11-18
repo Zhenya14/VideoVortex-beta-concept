@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VideoVortex — Відеохостинг з двома каналами та гнучким доступом</title>
+  <meta name="description" content="VideoVortex — інноваційна платформа для обміну відео та фото з підтримкою двох каналів, історій, архівів та гнучкого контролю доступу." />
+  <meta name="keywords" content="VideoVortex, відеохостинг, дивитися відео, завантажити відео, український відеохостинг, обмін фото, історії" />
+  <meta property="og:title" content="VideoVortex — Відеохостинг з двома каналами та гнучким доступом" />
+  <meta property="og:description" content="Інноваційна платформа для обміну відео, фото-дописами, історіями та ZIP-архівами." />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="assets/images/logos/VideoVortex_logo_512x512.png" />
+  <meta name="theme-color" content="#070a0f" />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="icon" href="assets/images/logos/VideoVortex_logo.ico" type="image/x-icon" />
+  <link rel="apple-touch-icon" href="assets/images/logos/VideoVortex_logo_192x192.png" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+  <link rel="stylesheet" href="css/variables.css" />
+  <link rel="stylesheet" href="css/base.css" />
+  <link rel="stylesheet" href="css/components.css" />
+  <link rel="stylesheet" href="css/navbar.css" />
+  <link rel="stylesheet" href="css/stories.css" />
+  <link rel="stylesheet" href="css/feed.css" />
+  <link rel="stylesheet" href="css/video.css" />
+  <link rel="stylesheet" href="css/profile.css" />
+  <link rel="stylesheet" href="css/auth.css" />
+</head>
+<body>
+  <div class="ambient-backdrop"></div>
+  <main id="app-shell" class="app-shell"></main>
+
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-storage.js"></script>
+
+  <script src="js/core/firebase.js"></script>
+  <script src="js/core/dom.js"></script>
+  <script src="js/core/utils.js"></script>
+  <script src="js/core/moderation.js"></script>
+  <script src="js/update.js"></script>
+
+  <script src="components/elements/navbar-shell.js"></script>
+  <script src="components/elements/home-screen.js"></script>
+  <script src="components/elements/library-screen.js"></script>
+  <script src="components/elements/upload-screen.js"></script>
+  <script src="components/elements/settings-screen.js"></script>
+  <script src="components/elements/auth-screen.js"></script>
+  <script src="components/elements/detail-screens.js"></script>
+  <script src="components/elements/modals-layer.js"></script>
+  <script src="components/elements/mount-shell.js"></script>
+
+  <script src="js/components/ui-feedback.js"></script>
+  <script src="js/core/feedback-manager.js"></script>
+  <script src="js/components/dropdown.js"></script>
+  <script src="js/components/file-picker.js"></script>
+  <script src="js/components/video-card.js"></script>
+  <script src="js/components/photo-card.js"></script>
+  <script src="js/components/story-item.js"></script>
+  <script src="js/components/comment-item.js"></script>
+  <script src="js/components/archive-row.js"></script>
+  <script src="js/components/notification-item.js"></script>
+
+  <script src="js/router.js"></script>
+  <script src="js/views/home-view.js"></script>
+  <script src="js/views/photos-view.js"></script>
+  <script src="js/views/stories-view.js"></script>
+  <script src="js/views/video-view.js"></script>
+  <script src="js/views/profile-view.js"></script>
+  <script src="js/views/library-view.js"></script>
+  <script src="js/views/upload-view.js"></script>
+  <script src="js/views/settings-view.js"></script>
+  <script src="js/views/auth-view.js"></script>
+
+  <script src="js/i18n.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
