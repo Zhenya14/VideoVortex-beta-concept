@@ -1,0 +1,42 @@
+.vv-seasonal-decoration {
+  position: fixed;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  overflow: hidden;
+}
+.vv-seasonal-decoration span {
+  position: absolute;
+  top: -2rem;
+  opacity: .72;
+  animation: vv-seasonal-drift 9s linear infinite;
+}
+.vv-seasonal-snowflake {
+  position: fixed;
+  top: -2rem;
+  z-index: 9998;
+  pointer-events: none;
+  animation: vv-seasonal-fall linear forwards;
+}
+.vv-season-halloween { --accent: #f97316; }
+.vv-season-newyear { --accent: #7dd3fc; }
+.vv-season-valentine { --accent: #fb7185; }
+.vv-season-independence { --accent: #3b82f6; }
+.vv-season-vyshyvanka { --accent: #dc2626; }
+.vv-season-easter { --accent: #a78bfa; }
+.vv-season-halloween .nav-brand,
+.vv-season-newyear .nav-brand,
+.vv-season-valentine .nav-brand,
+.vv-season-independence .nav-brand,
+.vv-season-vyshyvanka .nav-brand,
+.vv-season-easter .nav-brand { filter: drop-shadow(0 0 8px color-mix(in srgb, var(--accent) 45%, transparent)); }
+@keyframes vv-seasonal-drift {
+  0% { transform: translateY(-4vh) rotate(0deg); }
+  100% { transform: translateY(108vh) rotate(360deg); }
+}
+@keyframes vv-seasonal-fall {
+  to { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .vv-seasonal-decoration, .vv-seasonal-decoration span, .vv-seasonal-snowflake { animation: none !important; }
+}
