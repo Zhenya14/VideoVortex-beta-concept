@@ -1,7 +1,104 @@
 (function (global) {
   'use strict';
 
+  
+async function generateVideoDescription(button) {
+  const titleInput = document.getElementById("video-title-input");
+  const descInput = document.getElementById("video-desc-input");
+
+  const title = titleInput?.value.trim();
+
+  if (!title) {
+    global.VVFeedback.notify({
+      scope: "upload-video",
+      type: "error",
+      message: "Спочатку введіть назву відео!",
+      fields: ["#video-title-input"]
+    });
+    return;
+  }
+
+  const originalHTML = button.innerHTML;
+
+  try {
+    button.disabled = true;
+
+    global.VVFeedback.notify({
+      scope: "upload-video",
+      type: "loading",
+      message: "ШІ генерує опис відео...",
+      dismissible: false,
+      autoHideMs: 0
+    });
+
+    button.innerHTML = "⏳ Генерується...";
+
+    const response = await fetch(
+      "https://us-central1-videovortex-235cd.cloudfunctions.net/generateDescription",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          text: title,
+          language: "uk"
+        })
+      }
+    );
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.error || "Помилка сервера");
+    }
+
+    if (!data?.result) {
+      throw new Error("ШІ не повернув опис");
+    }
+
+    descInput.value = data.result;
+
+    descInput.dispatchEvent(
+      new Event("input", { bubbles: true })
+    );
+
+    global.VVFeedback.notify({
+      scope: "upload-video",
+      type: "success",
+      message: "Опис успішно згенеровано!"
+    });
+
+  } catch (error) {
+    console.error("VideoVortex AI:", error);
+
+    global.VVFeedback.notify({
+      scope: "upload-video",
+      type: "error",
+      message: "Помилка генерації: " + error.message
+    });
+
+  } finally {
+    button.disabled = false;
+    button.innerHTML = originalHTML;
+  }
+}
+
   function initUploadView() {
+const uploadView = document.getElementById("upload-view");
+
+if (uploadView && !uploadView.dataset.descriptionHandler) {
+  uploadView.dataset.descriptionHandler = "true";
+
+  uploadView.addEventListener("click", (e) => {
+    const button = e.target.closest(".generate-description");
+
+    if (!button || !uploadView.contains(button)) return;
+
+    e.preventDefault();
+    generateVideoDescription(button);
+  });
+}
     const banduraToggle = document.getElementById("video-bandura-toggle");
     const banduraFields = document.getElementById("bandura-fields-box");
     if (banduraToggle && banduraFields) {
