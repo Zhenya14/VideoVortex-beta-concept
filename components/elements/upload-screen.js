@@ -120,7 +120,19 @@
                 id: "video-desc-input",
                 "data-i18n-placeholder": "video-desc-ph",
                 placeholder: "Про що це відео..."
-              })
+              }),
+              el(
+                "button",
+                {
+                  type: "button",
+                  className: "btn generate-description"
+                },
+                icon("smart_toy"),
+                el("span", {
+                  "data-i18n": "generate-description",
+                  text: "Згенерувати опис"
+                })
+              )
             ),
             el(
               "div",
