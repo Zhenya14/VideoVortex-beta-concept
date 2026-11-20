@@ -1042,17 +1042,62 @@
       activeCommentsRef.on("value", activeCommentsHandler, () => {});
     }
 
-    const allVideosMap = global.VVState?.allVideosMap || {};
-    Object.entries(allVideosMap)
-      .filter(([k, v]) => k !== videoKey && !v.private)
-      .slice(0, 8)
-      .forEach(([k, v]) => {
-        similarList.appendChild(
-          global.VVComponents.createSimilarVideoCard(k, v, (targetKey, targetVid) =>
-            openVideo(targetKey, targetVid)
-          )
+   
+const allVideosMap = global.VVState?.allVideosMap || {};
+
+
+async function loadSimilarVideos() {
+  const entries = Object.entries(
+    global.VVState?.allVideosMap || {}
+  ).filter(([key, video]) => {
+    return key !== videoKey && !video.private;
+  });
+
+  const visibleVideos = [];
+
+  for (const [key, video] of entries) {
+    if (renderToken !== activeRenderToken) return;
+    if (!similarList.isConnected) return;
+
+    if (video.authorUid && currentUser) {
+      let allowed = false;
+
+      try {
+        allowed = await global.VV.canInteractWithUser(
+          currentUser.uid,
+          video.authorUid
         );
-      });
+      } catch (error) {
+        console.error("Помилка перевірки автора:", error);
+      }
+
+      if (renderToken !== activeRenderToken) return;
+
+      if (!allowed) continue;
+    }
+
+    visibleVideos.push([key, video]);
+
+    if (visibleVideos.length >= 8) break;
+  }
+
+  if (renderToken !== activeRenderToken) return;
+  if (!similarList.isConnected) return;
+
+  visibleVideos.forEach(([key, video]) => {
+    similarList.appendChild(
+      global.VVComponents.createSimilarVideoCard(
+        key,
+        video,
+        (targetKey, targetVideo) => {
+          openVideo(targetKey, targetVideo);
+        }
+      )
+    );
+  });
+}
+
+loadSimilarVideos();
   }
 
   global.VVViews = global.VVViews || {};

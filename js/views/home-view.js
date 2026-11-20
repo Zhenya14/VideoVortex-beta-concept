@@ -3,62 +3,109 @@
 
   const { clear } = global.VV;
 
-  function renderFeeds(filterQuery = "") {
-    const homeContainer = document.getElementById("video-container");
-    const popularContainer = document.getElementById("popular-videos");
-    const allVideosMap = global.VVState?.allVideosMap || {};
-    const currentUser = global.VVState?.currentUser;
-    const q = filterQuery.trim().toLowerCase();
+ 
+async function renderFeeds(filterQuery = "") {
+  const homeContainer = document.getElementById("video-container");
+  const popularContainer = document.getElementById("popular-videos");
 
-    const entries = Object.entries(allVideosMap).filter(([, v]) => {
-      if (!v) return false;
-      if (v.expiresAt && Date.now() > Number(v.expiresAt)) return false;
-      if (
-        v.private &&
-        (!currentUser || (currentUser.uid !== v.authorUid && currentUser.email !== v.email))
-      ) {
-        return false;
+  const allVideosMap = global.VVState?.allVideosMap || {};
+  const currentUser = global.VVState?.currentUser;
+  const q = filterQuery.trim().toLowerCase();
+
+  // Фільтруємо відео за звичайними умовами
+  const entries = Object.entries(allVideosMap).filter(([, v]) => {
+    if (!v) return false;
+
+    if (v.expiresAt && Date.now() > Number(v.expiresAt)) {
+      return false;
+    }
+
+    if (
+      v.private &&
+      (!currentUser ||
+        (currentUser.uid !== v.authorUid &&
+         currentUser.email !== v.email))
+    ) {
+      return false;
+    }
+
+    if (!q) return true;
+
+    const titleMatch = String(v.title || "").toLowerCase().includes(q);
+    const authorMatch = String(v.author || "").toLowerCase().includes(q);
+
+    return titleMatch || authorMatch;
+  });
+
+  // Окремо перевіряємо блокування
+  const visibleEntries = [];
+
+  for (const [key, video] of entries) {
+    if (video.authorUid && currentUser) {
+      let allowed = false;
+
+      try {
+        allowed = await global.VV.canInteractWithUser(
+          currentUser.uid,
+          video.authorUid
+        );
+      } catch (error) {
+        console.error("Помилка перевірки блокування:", error);
       }
-      if (!q) return true;
-      const titleMatch = String(v.title || "").toLowerCase().includes(q);
-      const authorMatch = String(v.author || "").toLowerCase().includes(q);
-      return titleMatch || authorMatch;
-    });
 
-    if (homeContainer) {
-      clear(homeContainer);
-      entries
-        .slice()
-        .reverse()
-        .forEach(([key, video]) => {
-          homeContainer.appendChild(
-            global.VVComponents.createVideoCard(key, video, {
-              onOpen: (k, v) => global.VVViews.openVideo(k, v),
-              onAuthorClick: (uid) => global.VVViews.openProfile(uid)
-            })
-          );
-        });
+      // Якщо заблокував хтось із двох користувачів,
+      // відео не додається до стрічки
+      if (!allowed) continue;
     }
 
-    if (popularContainer) {
-      clear(popularContainer);
-      entries
-        .slice()
-        .sort((a, b) => {
-          const scoreB = Number(b[1].boostCount || 0) * 15 + Number(b[1].views || 0);
-          const scoreA = Number(a[1].boostCount || 0) * 15 + Number(a[1].views || 0);
-          return scoreB - scoreA;
-        })
-        .forEach(([key, video]) => {
-          popularContainer.appendChild(
-            global.VVComponents.createVideoCard(key, video, {
-              onOpen: (k, v) => global.VVViews.openVideo(k, v),
-              onAuthorClick: (uid) => global.VVViews.openProfile(uid)
-            })
-          );
-        });
-    }
+    visibleEntries.push([key, video]);
   }
+
+  // Головна стрічка
+  if (homeContainer) {
+    clear(homeContainer);
+
+    visibleEntries
+      .slice()
+      .reverse()
+      .forEach(([key, video]) => {
+        homeContainer.appendChild(
+          global.VVComponents.createVideoCard(key, video, {
+            onOpen: (k, v) => global.VVViews.openVideo(k, v),
+            onAuthorClick: (uid) => global.VVViews.openProfile(uid)
+          })
+        );
+      });
+  }
+
+  // Популярні відео
+  if (popularContainer) {
+    clear(popularContainer);
+
+    visibleEntries
+      .slice()
+      .sort((a, b) => {
+        const scoreB =
+          Number(b[1].boostCount || 0) * 15 +
+          Number(b[1].views || 0);
+
+        const scoreA =
+          Number(a[1].boostCount || 0) * 15 +
+          Number(a[1].views || 0);
+
+        return scoreB - scoreA;
+      })
+      .forEach(([key, video]) => {
+        popularContainer.appendChild(
+          global.VVComponents.createVideoCard(key, video, {
+            onOpen: (k, v) => global.VVViews.openVideo(k, v),
+            onAuthorClick: (uid) => global.VVViews.openProfile(uid)
+          })
+        );
+      });
+  }
+}
+
 
   function initHomeView() {
     if (!global.db) return;
